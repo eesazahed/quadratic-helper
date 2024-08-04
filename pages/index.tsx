@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import Input from "../components/Input";
 import { useEffect, useState } from "react";
 import A from "../components/A";
@@ -9,6 +8,7 @@ import Fraction from "../components/Fraction";
 import Sqrt from "../components/Sqrt";
 import copy from "../utils/copy";
 import Gradient from "../components/Gradient";
+import PageHead from "../components/PageHead";
 
 interface FormDataType {
   a?: string;
@@ -78,13 +78,12 @@ const Home: NextPage = () => {
 
   return (
     <div className="py-12">
-      <Head>
-        <title>Quadratic Helper</title>
-      </Head>
+      <PageHead title="Home" />
+
       <main className="leading-8 text-xl flex flex-col pt-16 min-h-screen">
-        <div className="w-1/2 mx-auto">
+        <div className="w-2/3 mx-auto">
           <h1 className="text-7xl text-center font-bold">
-            <Gradient text="Quadratic Helper" />
+            <Gradient text="Quadratic Helper" /> 📝
           </h1>
           <div>
             <div className="w-1/2 mx-auto my-16">
