@@ -34,6 +34,9 @@ const Home: NextPage = () => {
   const [xValueVertex, setXValueVertex] = useState<number | undefined>(
     undefined
   );
+  const [yValueVertex, setYValueVertex] = useState<number | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     setA(formData.a !== undefined ? Number(formData.a) : undefined);
@@ -61,6 +64,17 @@ const Home: NextPage = () => {
       setXValueVertex((root1 + root2) / 2);
     }
   }, [root1, root2]);
+
+  useEffect(() => {
+    if (
+      a !== undefined &&
+      b !== undefined &&
+      c !== undefined &&
+      xValueVertex !== undefined
+    ) {
+      setYValueVertex(a * (xValueVertex * xValueVertex) + b * xValueVertex + c);
+    }
+  }, [xValueVertex]);
 
   return (
     <div className="py-12">
@@ -96,7 +110,7 @@ const Home: NextPage = () => {
                 updateParent={(e: string) => setFormData({ ...formData, c: e })}
               />
             </div>
-            {a === 0 ? (
+            {a !== undefined && a === 0 ? (
               <div className="mb-8">
                 <h1 className="mt-16 mb-8 text-2xl font-bold">
                   If <A /> = 0, the equation cannot be quadratic.
@@ -112,8 +126,8 @@ const Home: NextPage = () => {
                     className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
                     onClick={(e: any) => copy(e.target.innerText)}
                   >
-                    f(x) = <A a={a} />
-                    x&#178; + <B b={b} />x + <C c={c} />
+                    f(x) = {a !== 1 && <A a={a} />}
+                    x&#178; + {b !== 1 && <B b={b} />}x + <C c={c} />
                   </h2>
                   <p className="my-4 text-sm">
                     The y-intercept is <C c={c} />
@@ -333,6 +347,25 @@ const Home: NextPage = () => {
                               </p>
                               {root1 !== undefined && root2 !== undefined && (
                                 <div>
+                                  <h1 className="mt-16 mb-4 text-4xl font-bold">
+                                    Factored form:
+                                  </h1>
+                                  <h2
+                                    className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
+                                    onClick={(e: any) =>
+                                      copy(e.target.innerText)
+                                    }
+                                  >
+                                    f(x) = {a !== 1 && <A a={a} />}
+                                    (x {root1 < 0 ? "+" : "-"} {Math.abs(root1)}
+                                    )(x {root2 < 0 ? "+" : "-"}{" "}
+                                    {Math.abs(root2)})
+                                  </h2>
+                                </div>
+                              )}
+
+                              {root1 !== undefined && root2 !== undefined && (
+                                <div>
                                   <h1 className="mt-16 mb-8 text-4xl font-bold">
                                     Find the vertex
                                   </h1>
@@ -376,27 +409,40 @@ const Home: NextPage = () => {
                                           a={a * (xValueVertex * xValueVertex)}
                                         />{" "}
                                         + <B b={b * xValueVertex} /> +
-                                        <C c={c} /> ={" "}
-                                        {a * (xValueVertex * xValueVertex) +
-                                          b * xValueVertex +
-                                          c}
+                                        <C c={c} /> = {yValueVertex}
                                       </h2>
                                       <p className="my-4 text-sm">
                                         The y-value of the vertex is{" "}
-                                        {a * (xValueVertex * xValueVertex) +
-                                          b * xValueVertex +
-                                          c}
+                                        {yValueVertex}
                                         . <br />
                                         <br />
                                         The vertex is{" "}
                                         <span className="text-pink-500">
-                                          ({xValueVertex},{" "}
-                                          {a * (xValueVertex * xValueVertex) +
-                                            b * xValueVertex +
-                                            c}
-                                          )
+                                          ({xValueVertex}, {yValueVertex})
                                         </span>
                                       </p>
+                                      {xValueVertex !== undefined &&
+                                        yValueVertex !== undefined && (
+                                          <div>
+                                            <h1 className="mt-16 mb-4 text-4xl font-bold">
+                                              Vertex form:
+                                            </h1>
+                                            <h2
+                                              className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
+                                              onClick={(e: any) =>
+                                                copy(e.target.innerText)
+                                              }
+                                            >
+                                              f(x) = {a !== 1 && <A a={a} />}
+                                              (x {xValueVertex < 0
+                                                ? "+"
+                                                : "-"}{" "}
+                                              {Math.abs(xValueVertex)})&#178;{" "}
+                                              {yValueVertex < 0 ? "-" : "+"}{" "}
+                                              {Math.abs(yValueVertex)}
+                                            </h2>
+                                          </div>
+                                        )}
                                     </div>
                                   )}
                                 </div>
