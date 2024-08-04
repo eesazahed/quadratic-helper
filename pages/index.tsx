@@ -7,6 +7,8 @@ import B from "../components/B";
 import C from "../components/C";
 import Fraction from "../components/Fraction";
 import Sqrt from "../components/Sqrt";
+import copy from "../utils/copy";
+import Gradient from "../components/Gradient";
 
 interface FormDataType {
   a?: string;
@@ -22,54 +24,54 @@ const Home: NextPage = () => {
   });
 
   const [a, setA] = useState<number | undefined>(undefined);
-  useEffect(() => {
-    if (formData.a) setA(Number(formData.a));
-  }, [formData.a]);
   const [b, setB] = useState<number | undefined>(undefined);
-  useEffect(() => {
-    if (formData.b) setB(Number(formData.b));
-  }, [formData.b]);
   const [c, setC] = useState<number | undefined>(undefined);
-  useEffect(() => {
-    if (formData.c) setC(Number(formData.c));
-  }, [formData.c]);
-
   const [discriminant, setDiscriminant] = useState<number | undefined>(
     undefined
   );
-  useEffect(() => {
-    if (a !== undefined && b !== undefined && c !== undefined)
-      setDiscriminant(b * b - 4 * a * c);
-  }, [a, b, c]);
-
   const [root1, setRoot1] = useState<number | undefined>(undefined);
-  useEffect(() => {
-    if (a !== undefined && b !== undefined && discriminant !== undefined)
-      setRoot1((-b + Math.sqrt(discriminant)) / (2 * a));
-  }, [discriminant]);
   const [root2, setRoot2] = useState<number | undefined>(undefined);
-
-  useEffect(() => {
-    if (a !== undefined && b !== undefined && discriminant !== undefined)
-      setRoot2((-b - Math.sqrt(discriminant)) / (2 * a));
-  }, [discriminant]);
-
   const [xValueVertex, setXValueVertex] = useState<number | undefined>(
     undefined
   );
+
   useEffect(() => {
-    if (root1 !== undefined && root2 !== undefined)
+    setA(formData.a !== undefined ? Number(formData.a) : undefined);
+    setB(formData.b !== undefined ? Number(formData.b) : undefined);
+    setC(formData.c !== undefined ? Number(formData.c) : undefined);
+  }, [formData]);
+
+  useEffect(() => {
+    if (a !== undefined && b !== undefined && c !== undefined) {
+      const disc = b * b - 4 * a * c;
+      setDiscriminant(disc);
+
+      if (disc >= 0) {
+        setRoot1((-b + Math.sqrt(disc)) / (2 * a));
+        setRoot2((-b - Math.sqrt(disc)) / (2 * a));
+      } else {
+        setRoot1(undefined);
+        setRoot2(undefined);
+      }
+    }
+  }, [a, b, c]);
+
+  useEffect(() => {
+    if (root1 !== undefined && root2 !== undefined) {
       setXValueVertex((root1 + root2) / 2);
+    }
   }, [root1, root2]);
 
   return (
-    <div className="mx-8">
+    <div className="py-12">
       <Head>
         <title>Quadratic Helper</title>
       </Head>
       <main className="leading-8 text-xl flex flex-col pt-16 min-h-screen">
         <div className="w-1/2 mx-auto">
-          <h1 className="text-7xl text-center font-bold">Quadratic Helper</h1>
+          <h1 className="text-7xl text-center font-bold">
+            <Gradient text="Quadratic Helper" />
+          </h1>
           <div>
             <div className="w-1/2 mx-auto my-16">
               <Input
@@ -96,36 +98,43 @@ const Home: NextPage = () => {
             </div>
             {a === 0 ? (
               <div className="mb-8">
-                <h1 className="my-8 text-2xl font-bold">
+                <h1 className="mt-16 mb-8 text-2xl font-bold">
                   If <A /> = 0, the equation cannot be quadratic.
                 </h1>
               </div>
             ) : (
               <div>
                 <div className="mb-8">
-                  <h1 className="my-8 text-4xl font-bold">Standard form</h1>
-                  <h2 className="my-4 text-2xl">
-                    f(x) =
-                    <A a={a} />x<sup>2</sup> +
-                    <B b={b} />x +
-                    <C c={c} />
+                  <h1 className="mt-16 mb-4 text-4xl font-bold">
+                    Standard form
+                  </h1>
+                  <h2
+                    className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
+                    onClick={(e: any) => copy(e.target.innerText)}
+                  >
+                    f(x) = <A a={a} />
+                    x&#178; + <B b={b} />x + <C c={c} />
                   </h2>
                   <p className="my-4 text-sm">
                     The y-intercept is <C c={c} />
                   </p>
-                  {a && a > 0 ? (
-                    <p className="my-4 text-sm">
-                      <A /> is positive, it opens upward.
-                    </p>
-                  ) : (
-                    <p className="my-4 text-sm">
-                      <A /> is negative, it opens downwards.
-                    </p>
+                  {a !== undefined && (
+                    <div>
+                      {a > 0 ? (
+                        <p className="my-4 text-sm">
+                          <A /> is positive, it opens upward.
+                        </p>
+                      ) : (
+                        <p className="my-4 text-sm">
+                          <A /> is negative, it opens downwards.
+                        </p>
+                      )}
+                    </div>
                   )}
                 </div>
 
                 <div className="mb-8">
-                  <h1 className="my-8 text-4xl font-bold">
+                  <h1 className="mt-16 mb-8 text-4xl font-bold">
                     Find the solutions
                   </h1>
                   <p className="my-5 4 text-sm">
@@ -142,8 +151,10 @@ const Home: NextPage = () => {
                               children={
                                 <span>
                                   <B b={b} />
-                                  <sup>2</sup> - 4(
-                                  <A a={a} />) (<C c={c} />)
+                                  &#178; - 4(
+                                  <A a={a} />
+                                  )(
+                                  <C c={c} />)
                                 </span>
                               }
                             />
@@ -167,8 +178,10 @@ const Home: NextPage = () => {
                           The discriminant{" "}
                           <span>
                             <B b={b} />
-                            <sup>2</sup> - 4(
-                            <A a={a} />) (<C c={c} />)
+                            &#178; - 4(
+                            <A a={a} />
+                            )(
+                            <C c={c} />)
                           </span>{" "}
                           has the value of {discriminant}.
                         </p>
@@ -217,7 +230,7 @@ const Home: NextPage = () => {
                                   ({-b / (2 * a)}, 0)
                                 </span>
                               </p>
-                              <h1 className="my-8 text-4xl font-bold">
+                              <h1 className="mt-16 mb-8 text-4xl font-bold">
                                 Find the vertex
                               </h1>
                               <p className="my-4 text-sm">
@@ -236,7 +249,9 @@ const Home: NextPage = () => {
                                 Since it is greater than zero, that means that
                                 the quadratic has 2 real roots.
                               </p>
-                              <h1 className="mt-8 text-3xl">Root 1:</h1>
+                              <h1 className="mt-8 text-2xl font-bold">
+                                Root 1:
+                              </h1>
                               <h2 className="my-4 text-2xl">
                                 x ={" "}
                                 <Fraction
@@ -270,7 +285,9 @@ const Home: NextPage = () => {
                                 />{" "}
                                 = {root1}
                               </h2>
-                              <h1 className="mt-8 text-3xl">Root 2:</h1>
+                              <h1 className="mt-8 text-2xl font-bold">
+                                Root 2:
+                              </h1>
                               <h2 className="my-4 text-2xl">
                                 x ={" "}
                                 <Fraction
@@ -316,7 +333,7 @@ const Home: NextPage = () => {
                               </p>
                               {root1 !== undefined && root2 !== undefined && (
                                 <div>
-                                  <h1 className="my-8 text-4xl font-bold">
+                                  <h1 className="mt-16 mb-8 text-4xl font-bold">
                                     Find the vertex
                                   </h1>
                                   <p className="my-4 text-sm">
@@ -344,28 +361,21 @@ const Home: NextPage = () => {
                                         form.
                                       </p>
                                       <h2 className="my-4 text-2xl">
-                                        f({xValueVertex}) =
-                                        <A a={a} />({xValueVertex})<sup>2</sup>{" "}
-                                        +
-                                        <B b={b} />({xValueVertex}) +
-                                        <C c={c} />
+                                        f({xValueVertex}) = <A a={a} />(
+                                        {xValueVertex})&#178; + <B b={b} />(
+                                        {xValueVertex}) + <C c={c} />
                                       </h2>
                                       <h2 className="my-4 text-2xl">
-                                        =
-                                        <A a={a} />(
-                                        {xValueVertex * xValueVertex}) +
-                                        <B b={b * xValueVertex} />
-                                        +
-                                        <C c={c} />
+                                        = <A a={a} />(
+                                        {xValueVertex * xValueVertex}) +{" "}
+                                        <B b={b * xValueVertex} /> + <C c={c} />
                                       </h2>
                                       <h2 className="my-4 text-2xl">
-                                        =
+                                        ={" "}
                                         <A
                                           a={a * (xValueVertex * xValueVertex)}
-                                        />
-                                        +
-                                        <B b={b * xValueVertex} />
-                                        +
+                                        />{" "}
+                                        + <B b={b * xValueVertex} /> +
                                         <C c={c} /> ={" "}
                                         {a * (xValueVertex * xValueVertex) +
                                           b * xValueVertex +

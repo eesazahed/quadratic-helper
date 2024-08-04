@@ -13,7 +13,7 @@ const Fraction: NextPage<FractionProps> = ({ numerator, denominator }) => {
       <div className="relative">
         <span className="absolute inset-x-0 top-1/2 border-t border-current w-full"></span>
       </div>
-      <span className="block p-1">123{denominator}</span>
+      <span className="block p-1">{denominator}</span>
     </div>
   );
 };

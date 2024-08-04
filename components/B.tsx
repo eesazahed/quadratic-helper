@@ -7,8 +7,7 @@ interface Props {
 const B: NextPage<Props> = ({ b }) => {
   return (
     <span className="font-bold text-green-500">
-      {" "}
-      {b !== undefined ? b : "b"}{" "}
+      {b !== undefined ? b : "b"}
     </span>
   );
 };
