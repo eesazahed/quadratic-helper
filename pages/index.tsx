@@ -109,15 +109,27 @@ const Home: NextPage = () => {
                 updateParent={(e: string) => setFormData({ ...formData, c: e })}
               />
             </div>
-            {a !== undefined && a === 0 ? (
+            {a === undefined || a === 0 ? (
               <div className="mb-8">
-                <h1 className="mt-16 mb-8 text-2xl font-bold">
+                <h1 className="text-center mt-16 mb-8 text-2xl font-bold">
                   If <A /> = 0, the equation cannot be quadratic.
                 </h1>
               </div>
             ) : (
               <div>
                 <div className="mb-8">
+                  <p className="text-sm text-center italic">
+                    You can click on the standard, factored, or vertex form
+                    equation to copy it. You can paste it into{" "}
+                    <a
+                      href="https://desmos.com/calculator"
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      Desmos
+                    </a>{" "}
+                    to see a visualized graph.
+                  </p>
                   <h1 className="mt-16 mb-4 text-4xl font-bold">
                     Standard form
                   </h1>
@@ -150,9 +162,7 @@ const Home: NextPage = () => {
                   <h1 className="mt-16 mb-8 text-4xl font-bold">
                     Find the solutions
                   </h1>
-                  <p className="my-5 4 text-sm">
-                    (aka zeros/roots/x-intercepts)
-                  </p>
+                  <p className="my-4 text-sm">(aka zeros/roots/x-intercepts)</p>
                   <div>
                     <h2 className="my-4 text-2xl">
                       x ={" "}
@@ -180,282 +190,333 @@ const Home: NextPage = () => {
                       />
                     </h2>
                   </div>
-                  {a !== undefined &&
-                    b !== undefined &&
-                    c !== undefined &&
-                    discriminant !== undefined && (
-                      <div>
-                        <p className="my-4 text-sm">
-                          The discriminant{" "}
-                          <span>
-                            <B b={b} />
-                            &#178; - 4(
-                            <A a={a} />
-                            )(
-                            <C c={c} />)
-                          </span>{" "}
-                          has the value of {discriminant}.
-                        </p>
-                        <h2 className="my-4 text-2xl">
-                          x ={" "}
-                          <Fraction
-                            numerator={
-                              <span>
-                                -<B b={b} /> &#177;{" "}
-                                <Sqrt>
-                                  <span>{discriminant}</span>
-                                </Sqrt>
-                              </span>
-                            }
-                            denominator={<span>{2 * a}</span>}
-                          />
-                        </h2>
+                  {b === undefined || b === 0 || c === undefined || c === 0 ? (
+                    <div>
+                      <p className="my-4 text-sm">
+                        Values for <B /> and <C /> are needed to solve this
+                        quadratic equation.
+                      </p>
+                    </div>
+                  ) : (
+                    <div>
+                      {discriminant !== undefined && (
                         <div>
-                          {discriminant < 0 && (
-                            <div>
-                              <p className="my-4 text-sm">
-                                Since it is less than zero, that means that the
-                                quadratic has no real roots.
-                              </p>
-                            </div>
-                          )}
-                          {discriminant === 0 && (
-                            <div>
-                              <p className="my-4 text-sm">
-                                Since it is equal to zero, that means that the
-                                quadratic has 1 real root.
-                              </p>
-                              <h2 className="my-4 text-2xl">
-                                x ={" "}
-                                <Fraction
-                                  numerator={
-                                    <span>
-                                      -<B b={b} />
-                                    </span>
-                                  }
-                                  denominator={<span>{2 * a}</span>}
-                                />{" "}
-                                = {-b / (2 * a)}
-                              </h2>
-                              <p className="my-4 text-sm">
-                                The solution is{" "}
-                                <span className="text-pink-500">
-                                  ({-b / (2 * a)}, 0)
+                          <p className="my-4 text-sm">
+                            The discriminant{" "}
+                            <span>
+                              <B b={b} />
+                              &#178; - 4(
+                              <A a={a} />
+                              )(
+                              <C c={c} />)
+                            </span>{" "}
+                            has the value of {discriminant}.
+                          </p>
+                          <h2 className="my-4 text-2xl">
+                            x ={" "}
+                            <Fraction
+                              numerator={
+                                <span>
+                                  -<B b={b} /> &#177;{" "}
+                                  <Sqrt>
+                                    <span>{discriminant}</span>
+                                  </Sqrt>
                                 </span>
-                              </p>
-                              <h1 className="mt-16 mb-8 text-4xl font-bold">
-                                Find the vertex
-                              </h1>
-                              <p className="my-4 text-sm">
-                                Since there&apos;s only one root, that means
-                                that the root must be the vertex. Therefore, the
-                                vertex is{" "}
-                                <span className="text-pink-500">
-                                  ({-b / (2 * a)}, 0).
-                                </span>
-                              </p>
-                            </div>
-                          )}
-                          {discriminant > 0 && (
-                            <div>
-                              <p className="my-4 text-sm">
-                                Since it is greater than zero, that means that
-                                the quadratic has 2 real roots.
-                              </p>
-                              <h1 className="mt-8 text-2xl font-bold">
-                                Root 1:
-                              </h1>
-                              <h2 className="my-4 text-2xl">
-                                x ={" "}
-                                <Fraction
-                                  numerator={
-                                    <span>
-                                      -<B b={b} /> +{" "}
-                                      <Sqrt>
-                                        <span>{discriminant}</span>
-                                      </Sqrt>
-                                    </span>
-                                  }
-                                  denominator={<span>{2 * a}</span>}
-                                />{" "}
-                                ={" "}
-                                <Fraction
-                                  numerator={
-                                    <span>
-                                      -<B b={b} /> + {Math.sqrt(discriminant)}
-                                    </span>
-                                  }
-                                  denominator={<span>{2 * a}</span>}
-                                />
-                              </h2>
-                              <h2 className="my-4 text-2xl">
-                                ={" "}
-                                <Fraction
-                                  numerator={
-                                    <span>{-b + Math.sqrt(discriminant)}</span>
-                                  }
-                                  denominator={<span>{2 * a}</span>}
-                                />{" "}
-                                = {root1}
-                              </h2>
-                              <h1 className="mt-8 text-2xl font-bold">
-                                Root 2:
-                              </h1>
-                              <h2 className="my-4 text-2xl">
-                                x ={" "}
-                                <Fraction
-                                  numerator={
-                                    <span>
-                                      -<B b={b} /> -{" "}
-                                      <Sqrt>
-                                        <span>{discriminant}</span>
-                                      </Sqrt>
-                                    </span>
-                                  }
-                                  denominator={<span>{2 * a}</span>}
-                                />{" "}
-                                ={" "}
-                                <Fraction
-                                  numerator={
-                                    <span>
-                                      -<B b={b} /> - {Math.sqrt(discriminant)}
-                                    </span>
-                                  }
-                                  denominator={<span>{2 * a}</span>}
-                                />
-                              </h2>
-                              <h2 className="my-4 text-2xl">
-                                ={" "}
-                                <Fraction
-                                  numerator={
-                                    <span>{-b - Math.sqrt(discriminant)}</span>
-                                  }
-                                  denominator={<span>{2 * a}</span>}
-                                />{" "}
-                                = {root2}
-                              </h2>
-                              <p className="my-4 text-sm">
-                                The solutions are{" "}
-                                <span className="text-pink-500">
-                                  ({root1}, 0)
-                                </span>{" "}
-                                and{" "}
-                                <span className="text-pink-500">
-                                  ({root2}, 0)
-                                </span>
-                              </p>
-                              {root1 !== undefined && root2 !== undefined && (
-                                <div>
-                                  <h1 className="mt-16 mb-4 text-4xl font-bold">
-                                    Factored form:
-                                  </h1>
-                                  <h2
-                                    className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
+                              }
+                              denominator={<span>{2 * a}</span>}
+                            />
+                          </h2>
+                          <div>
+                            {discriminant < 0 && (
+                              <div>
+                                <p className="my-4 text-sm">
+                                  Since it is less than zero, that means that
+                                  the quadratic has no real roots. However, you
+                                  can still copy{" "}
+                                  <a
+                                    className="text-purple-500 cursor-pointer"
                                     onClick={(e: any) =>
                                       copy(e.target.innerText)
                                     }
                                   >
                                     f(x) = {a !== 1 && <A a={a} />}
-                                    (x {root1 < 0 ? "+" : "-"} {Math.abs(root1)}
-                                    )(x {root2 < 0 ? "+" : "-"}{" "}
-                                    {Math.abs(root2)})
-                                  </h2>
-                                </div>
-                              )}
+                                    x&#178; + {b !== 1 && <B b={b} />}x +{" "}
+                                    <C c={c} />
+                                  </a>{" "}
+                                  and paste it into{" "}
+                                  <a
+                                    href="https://desmos.com/calculator"
+                                    rel="noreferrer"
+                                    target="_blank"
+                                  >
+                                    Desmos
+                                  </a>{" "}
+                                  to see a visualized graph.
+                                </p>
+                              </div>
+                            )}
+                            {discriminant === 0 && (
+                              <div>
+                                <p className="my-4 text-sm">
+                                  Since it is equal to zero, that means that the
+                                  quadratic has 1 real root.
+                                </p>
+                                <h2 className="my-4 text-2xl">
+                                  x ={" "}
+                                  <Fraction
+                                    numerator={
+                                      <span>
+                                        -<B b={b} />
+                                      </span>
+                                    }
+                                    denominator={<span>{2 * a}</span>}
+                                  />{" "}
+                                  = {-b / (2 * a)}
+                                </h2>
+                                <p className="my-4 text-sm">
+                                  The solution is{" "}
+                                  <span className="text-pink-500">
+                                    ({-b / (2 * a)}, 0)
+                                  </span>
+                                </p>
+                                <h1 className="mt-16 mb-8 text-4xl font-bold">
+                                  Find the vertex
+                                </h1>
+                                <p className="my-4 text-sm">
+                                  Since there&apos;s only one root, that means
+                                  that the root must be the vertex. Therefore,
+                                  the vertex is{" "}
+                                  <span className="text-pink-500">
+                                    ({-b / (2 * a)}, 0).
+                                  </span>
+                                </p>
+                              </div>
+                            )}
+                            {discriminant > 0 && (
+                              <div>
+                                <p className="my-4 text-sm">
+                                  Since it is greater than zero, that means that
+                                  the quadratic has 2 real roots.
+                                </p>
+                                <h1 className="mt-8 text-2xl font-bold">
+                                  Root 1:
+                                </h1>
+                                <h2 className="my-4 text-2xl">
+                                  x ={" "}
+                                  <Fraction
+                                    numerator={
+                                      <span>
+                                        -<B b={b} /> +{" "}
+                                        <Sqrt>
+                                          <span>{discriminant}</span>
+                                        </Sqrt>
+                                      </span>
+                                    }
+                                    denominator={<span>{2 * a}</span>}
+                                  />{" "}
+                                  ={" "}
+                                  <Fraction
+                                    numerator={
+                                      <span>
+                                        -<B b={b} /> + {Math.sqrt(discriminant)}
+                                      </span>
+                                    }
+                                    denominator={<span>{2 * a}</span>}
+                                  />
+                                </h2>
+                                <h2 className="my-4 text-2xl">
+                                  ={" "}
+                                  <Fraction
+                                    numerator={
+                                      <span>
+                                        {-b + Math.sqrt(discriminant)}
+                                      </span>
+                                    }
+                                    denominator={<span>{2 * a}</span>}
+                                  />{" "}
+                                  = {root1}
+                                </h2>
+                                <h1 className="mt-8 text-2xl font-bold">
+                                  Root 2:
+                                </h1>
+                                <h2 className="my-4 text-2xl">
+                                  x ={" "}
+                                  <Fraction
+                                    numerator={
+                                      <span>
+                                        -<B b={b} /> -{" "}
+                                        <Sqrt>
+                                          <span>{discriminant}</span>
+                                        </Sqrt>
+                                      </span>
+                                    }
+                                    denominator={<span>{2 * a}</span>}
+                                  />{" "}
+                                  ={" "}
+                                  <Fraction
+                                    numerator={
+                                      <span>
+                                        -<B b={b} /> - {Math.sqrt(discriminant)}
+                                      </span>
+                                    }
+                                    denominator={<span>{2 * a}</span>}
+                                  />
+                                </h2>
+                                <h2 className="my-4 text-2xl">
+                                  ={" "}
+                                  <Fraction
+                                    numerator={
+                                      <span>
+                                        {-b - Math.sqrt(discriminant)}
+                                      </span>
+                                    }
+                                    denominator={<span>{2 * a}</span>}
+                                  />{" "}
+                                  = {root2}
+                                </h2>
+                                <p className="my-4 text-sm">
+                                  The solutions are{" "}
+                                  <span className="text-pink-500">
+                                    ({root1}, 0)
+                                  </span>{" "}
+                                  and{" "}
+                                  <span className="text-pink-500">
+                                    ({root2}, 0)
+                                  </span>
+                                </p>
+                                {root1 !== undefined && root2 !== undefined && (
+                                  <div>
+                                    <h1 className="mt-16 mb-4 text-4xl font-bold">
+                                      Factored form:
+                                    </h1>
+                                    <h2
+                                      className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
+                                      onClick={(e: any) =>
+                                        copy(e.target.innerText)
+                                      }
+                                    >
+                                      f(x) = {a !== 1 && <A a={a} />}
+                                      (x {root1 < 0 ? "+" : "-"}{" "}
+                                      {Math.abs(root1)}
+                                      )(x {root2 < 0 ? "+" : "-"}{" "}
+                                      {Math.abs(root2)})
+                                    </h2>
+                                  </div>
+                                )}
 
-                              {root1 !== undefined && root2 !== undefined && (
-                                <div>
-                                  <h1 className="mt-16 mb-8 text-4xl font-bold">
-                                    Find the vertex
-                                  </h1>
-                                  <p className="my-4 text-sm">
-                                    Given the solutions are are ({root1}, 0) and
-                                    ({root2}, 0), we can find the x-value of the
-                                    vertex by getting the midpoint of both of
-                                    the x-values of the solutions.
-                                    <br />
-                                    <br />
-                                    This can be done by adding them and dividing
-                                    them by 2.
-                                  </p>
-                                  <h2 className="my-4 text-2xl">
-                                    {root1} + {root2} = {root1 + root2}
-                                  </h2>
-                                  <h2 className="my-4 text-2xl">
-                                    {root1 + root2} / 2 = {xValueVertex}
-                                  </h2>
-                                  {xValueVertex !== undefined && (
-                                    <div>
-                                      <p className="my-4 text-sm">
-                                        We know that the x-value of the vertex
-                                        is {xValueVertex}. Now, we just need to
-                                        plug it in the equation in standard
-                                        form.
-                                      </p>
-                                      <h2 className="my-4 text-2xl">
-                                        f({xValueVertex}) = <A a={a} />(
-                                        {xValueVertex})&#178; + <B b={b} />(
-                                        {xValueVertex}) + <C c={c} />
-                                      </h2>
-                                      <h2 className="my-4 text-2xl">
-                                        = <A a={a} />(
-                                        {xValueVertex * xValueVertex}) +{" "}
-                                        <B b={b * xValueVertex} /> + <C c={c} />
-                                      </h2>
-                                      <h2 className="my-4 text-2xl">
-                                        ={" "}
-                                        <A
-                                          a={a * (xValueVertex * xValueVertex)}
-                                        />{" "}
-                                        + <B b={b * xValueVertex} /> +
-                                        <C c={c} /> = {yValueVertex}
-                                      </h2>
-                                      <p className="my-4 text-sm">
-                                        The y-value of the vertex is{" "}
-                                        {yValueVertex}
-                                        . <br />
-                                        <br />
-                                        The vertex is{" "}
-                                        <span className="text-pink-500">
-                                          ({xValueVertex}, {yValueVertex})
-                                        </span>
-                                      </p>
-                                      {xValueVertex !== undefined &&
-                                        yValueVertex !== undefined && (
-                                          <div>
-                                            <h1 className="mt-16 mb-4 text-4xl font-bold">
-                                              Vertex form:
-                                            </h1>
-                                            <h2
-                                              className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
-                                              onClick={(e: any) =>
-                                                copy(e.target.innerText)
-                                              }
-                                            >
-                                              f(x) = {a !== 1 && <A a={a} />}
-                                              (x {xValueVertex < 0
-                                                ? "+"
-                                                : "-"}{" "}
-                                              {Math.abs(xValueVertex)})&#178;{" "}
-                                              {yValueVertex < 0 ? "-" : "+"}{" "}
-                                              {Math.abs(yValueVertex)}
-                                            </h2>
-                                          </div>
-                                        )}
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          )}
+                                {root1 !== undefined && root2 !== undefined && (
+                                  <div>
+                                    <h1 className="mt-16 mb-8 text-4xl font-bold">
+                                      Find the vertex
+                                    </h1>
+                                    <p className="my-4 text-sm">
+                                      Given the solutions are are ({root1}, 0)
+                                      and ({root2}, 0), we can find the x-value
+                                      of the vertex by getting the midpoint of
+                                      both of the x-values of the solutions.
+                                      <br />
+                                      <br />
+                                      This can be done by adding them and
+                                      dividing them by 2.
+                                    </p>
+                                    <h2 className="my-4 text-2xl">
+                                      {root1} + {root2} = {root1 + root2}
+                                    </h2>
+                                    <h2 className="my-4 text-2xl">
+                                      {root1 + root2} / 2 = {xValueVertex}
+                                    </h2>
+                                    {xValueVertex !== undefined && (
+                                      <div>
+                                        <p className="my-4 text-sm">
+                                          We know that the x-value of the vertex
+                                          is {xValueVertex}. Now, we just need
+                                          to plug it in the equation in standard
+                                          form.
+                                        </p>
+                                        <h2 className="my-4 text-2xl">
+                                          f({xValueVertex}) = <A a={a} />(
+                                          {xValueVertex})&#178; + <B b={b} />(
+                                          {xValueVertex}) + <C c={c} />
+                                        </h2>
+                                        <h2 className="my-4 text-2xl">
+                                          = <A a={a} />(
+                                          {xValueVertex * xValueVertex}) +{" "}
+                                          <B b={b * xValueVertex} /> +{" "}
+                                          <C c={c} />
+                                        </h2>
+                                        <h2 className="my-4 text-2xl">
+                                          ={" "}
+                                          <A
+                                            a={
+                                              a * (xValueVertex * xValueVertex)
+                                            }
+                                          />{" "}
+                                          + <B b={b * xValueVertex} /> +
+                                          <C c={c} /> = {yValueVertex}
+                                        </h2>
+                                        <p className="my-4 text-sm">
+                                          The y-value of the vertex is{" "}
+                                          {yValueVertex}
+                                          . <br />
+                                          <br />
+                                          The vertex is{" "}
+                                          <span className="text-pink-500">
+                                            ({xValueVertex}, {yValueVertex})
+                                          </span>
+                                        </p>
+                                        {xValueVertex !== undefined &&
+                                          yValueVertex !== undefined && (
+                                            <div>
+                                              <h1 className="mt-16 mb-4 text-4xl font-bold">
+                                                Vertex form:
+                                              </h1>
+                                              <h2
+                                                className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
+                                                onClick={(e: any) =>
+                                                  copy(e.target.innerText)
+                                                }
+                                              >
+                                                f(x) = {a !== 1 && <A a={a} />}
+                                                (x{" "}
+                                                {xValueVertex < 0
+                                                  ? "+"
+                                                  : "-"}{" "}
+                                                {Math.abs(xValueVertex)}
+                                                )&#178;{" "}
+                                                {yValueVertex < 0
+                                                  ? "-"
+                                                  : "+"}{" "}
+                                                {Math.abs(yValueVertex)}
+                                              </h2>
+                                            </div>
+                                          )}
+                                      </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    )}
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
           </div>
         </div>
+        <p className="my-16 text-center">
+          Made by{" "}
+          <a
+            className="text-green-400"
+            rel="noreferrer"
+            target="_blank"
+            href="https://eesa.zahed.ca/"
+          >
+            Eesa Zahed
+          </a>
+        </p>
       </main>
     </div>
   );
