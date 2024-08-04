@@ -6,11 +6,14 @@ import A from "../components/A";
 import B from "../components/B";
 import C from "../components/C";
 import gcfOfThreeNumbers from "../utils/gcfOfThreeNumbers";
+import isFactorable from "../utils/isFactorable";
+import Fraction from "../components/Fraction";
+import Sqrt from "../components/Sqrt";
 
 interface FormDataType {
-  a?: number;
-  b?: number;
-  c?: number;
+  a?: string;
+  b?: string;
+  c?: string;
 }
 
 const Home: NextPage = () => {
@@ -20,11 +23,24 @@ const Home: NextPage = () => {
     c: undefined,
   });
 
+  const [a, setA] = useState<number | undefined>(undefined);
+  useEffect(() => {
+    if (formData.a) setA(parseInt(formData.a));
+  }, [formData.a]);
+  const [b, setB] = useState<number | undefined>(undefined);
+  useEffect(() => {
+    if (formData.b) setB(parseInt(formData.b));
+  }, [formData.b]);
+  const [c, setC] = useState<number | undefined>(undefined);
+  useEffect(() => {
+    if (formData.c) setC(parseInt(formData.c));
+  }, [formData.c]);
+
   const [GCF, setGCF] = useState<number | undefined>(undefined);
 
   useEffect(() => {
-    if (formData.a && formData.b && formData.c) {
-      setGCF(gcfOfThreeNumbers(formData.a, formData.b, formData.c));
+    if (a && a !== 0 && b && b !== 0 && c && c !== 0) {
+      setGCF(gcfOfThreeNumbers(a, b, c));
     } else {
       setGCF(undefined);
     }
@@ -45,37 +61,76 @@ const Home: NextPage = () => {
                 type="number"
                 placeholder="a"
                 parentData={formData.a}
-                updateParent={(e: number) => setFormData({ ...formData, a: e })}
+                updateParent={(e: string) => setFormData({ ...formData, a: e })}
               />
               <Input
                 label="b:"
                 type="number"
                 placeholder="b"
                 parentData={formData.b}
-                updateParent={(e: number) => setFormData({ ...formData, b: e })}
+                updateParent={(e: string) => setFormData({ ...formData, b: e })}
               />
               <Input
                 label="c:"
                 type="number"
                 placeholder="c"
                 parentData={formData.c}
-                updateParent={(e: number) => setFormData({ ...formData, c: e })}
+                updateParent={(e: string) => setFormData({ ...formData, c: e })}
               />
             </div>
-            <div className="mb-8">
-              <h1 className="my-4 text-4xl font-bold">Standard form</h1>
-              <h2 className="my-2 text-2xl">
-                f(x) =
-                <A a={formData.a} />x<sup>2</sup> +
-                <B b={formData.b} />x +
-                <C c={formData.c} />
-              </h2>
-              <p className="my-4 text-sm">
-                The y-intercept is <C c={formData.c} />
-              </p>
-            </div>
 
-            {formData.a && formData.b && formData.c && (
+            {a === 0 ? (
+              <div className="mb-8">
+                <h1 className="my-4 text-2xl font-bold">
+                  If a = 0, the equation cannot be quadratic.
+                </h1>
+              </div>
+            ) : (
+              <div>
+                <div className="mb-8">
+                  <h1 className="my-4 text-4xl font-bold">Standard form</h1>
+                  <h2 className="my-2 text-2xl">
+                    f(x) =
+                    <A a={a} />x<sup>2</sup> +
+                    <B b={b} />x +
+                    <C c={c} />
+                  </h2>
+                  <p className="my-4 text-sm">
+                    The y-intercept is <C c={c} />
+                  </p>
+                </div>
+
+                <div className="mb-8">
+                  <h1 className="my-4 text-4xl font-bold">
+                    Find the solutions
+                  </h1>
+                  <p className="my-5 4 text-sm">
+                    (aka zeros/roots/x-intercepts)
+                  </p>
+                  <h2 className="my-2 text-2xl">
+                    x ={" "}
+                    <Fraction
+                      numerator={
+                        <span>
+                          -<B b={b} /> &#177;{" "}
+                          <Sqrt
+                            children={
+                              <span>
+                                <B b={b} />
+                              </span>
+                            }
+                          />
+                        </span>
+                      }
+                      denominator={<span>a</span>}
+                    />
+                  </h2>
+                </div>
+              </div>
+            )}
+
+            {/* 
+            {a && b && c && (
               <div>
                 <div className="mb-8">
                   <h1 className="my-4 text-4xl font-bold">Factored form</h1>
@@ -85,32 +140,41 @@ const Home: NextPage = () => {
                   </p>
                   <h2 className="my-2 text-2xl">
                     0 =
-                    <A a={formData.a} />x<sup>2</sup> +
-                    <B b={formData.b} />
+                    <A a={a} />x<sup>2</sup> +
+                    <B b={b} />
                     x +
-                    <C c={formData.c} />
+                    <C c={c} />
                   </h2>
                   <p className="my-4 text-sm">
                     Then, the equation will be factored.
                     <br />
-                    GCF in this equation: <b>{GCF}</b>
+                    GCF in this equation: <b>{GCF || 0}</b>
                   </p>
-                  {GCF !== 1 ? (
+                  {GCF && GCF !== 1 ? (
                     <div>
                       <h2 className="my-2 text-2xl">
                         0 = {GCF}
-                        <A a={formData.a} />x<sup>2</sup> +
-                        <B b={formData.b} />
+                        (
+                        <A a={a} />x<sup>2</sup> +
+                        <B b={b} />
                         x +
-                        <C c={formData.c} />
+                        <C c={c} />)
                       </h2>
                     </div>
                   ) : (
-                    <div></div>
+                    <div>
+                      <h2 className="my-2 text-2xl">
+                        0 =
+                        <A a={a} />x<sup>2</sup> +
+                        <B b={b} />
+                        x +
+                        <C c={c} />
+                      </h2>
+                    </div>
                   )}
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </main>

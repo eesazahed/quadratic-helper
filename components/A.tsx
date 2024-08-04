@@ -5,7 +5,12 @@ interface Props {
 }
 
 const A: NextPage<Props> = ({ a }) => {
-  return <p className="inline font-bold text-red-500 px-1">{a || "a"}</p>;
+  return (
+    <span className="font-bold text-red-500">
+      {" "}
+      {a !== undefined ? a : "a"}{" "}
+    </span>
+  );
 };
 
 export default A;

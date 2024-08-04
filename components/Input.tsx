@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 
 interface Props {
-  parentData: number | undefined;
+  parentData: string | undefined;
   updateParent: Function;
   label: string;
   placeholder: string;
