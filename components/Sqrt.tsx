@@ -9,7 +9,7 @@ const Sqrt: NextPage<SqrtProps> = ({ children }) => {
   return (
     <p className="inline-flex items-center text-lg">
       <span className="font-bold">&#8730;</span>
-      <span className="border-t px-1">{children}</span>
+      <span className="border-t border-current px-1">{children}</span>
     </p>
   );
 };
