@@ -10,7 +10,7 @@ const PageHead: NextPage<Props> = ({ title }) => {
     <Head>
       <title>Quadratic Helper | {title}</title>
       <meta name="description" content="Quadratic Helper. Made by Eesa Zahed" />
-      <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?" />
+      <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico?" />
     </Head>
   );
 };
