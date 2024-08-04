@@ -74,7 +74,7 @@ const Home: NextPage = () => {
     ) {
       setYValueVertex(a * (xValueVertex * xValueVertex) + b * xValueVertex + c);
     }
-  }, [xValueVertex]);
+  }, [a, b, c, xValueVertex]);
 
   return (
     <div className="py-12">
@@ -160,17 +160,15 @@ const Home: NextPage = () => {
                         numerator={
                           <span>
                             -<B b={b} /> &#177;{" "}
-                            <Sqrt
-                              children={
-                                <span>
-                                  <B b={b} />
-                                  &#178; - 4(
-                                  <A a={a} />
-                                  )(
-                                  <C c={c} />)
-                                </span>
-                              }
-                            />
+                            <Sqrt>
+                              <span>
+                                <B b={b} />
+                                &#178; - 4(
+                                <A a={a} />
+                                )(
+                                <C c={c} />)
+                              </span>
+                            </Sqrt>
                           </span>
                         }
                         denominator={
@@ -204,7 +202,9 @@ const Home: NextPage = () => {
                             numerator={
                               <span>
                                 -<B b={b} /> &#177;{" "}
-                                <Sqrt children={<span>{discriminant}</span>} />
+                                <Sqrt>
+                                  <span>{discriminant}</span>
+                                </Sqrt>
                               </span>
                             }
                             denominator={<span>{2 * a}</span>}
@@ -271,9 +271,9 @@ const Home: NextPage = () => {
                                   numerator={
                                     <span>
                                       -<B b={b} /> +{" "}
-                                      <Sqrt
-                                        children={<span>{discriminant}</span>}
-                                      />
+                                      <Sqrt>
+                                        <span>{discriminant}</span>
+                                      </Sqrt>
                                     </span>
                                   }
                                   denominator={<span>{2 * a}</span>}
@@ -307,9 +307,9 @@ const Home: NextPage = () => {
                                   numerator={
                                     <span>
                                       -<B b={b} /> -{" "}
-                                      <Sqrt
-                                        children={<span>{discriminant}</span>}
-                                      />
+                                      <Sqrt>
+                                        <span>{discriminant}</span>
+                                      </Sqrt>
                                     </span>
                                   }
                                   denominator={<span>{2 * a}</span>}
