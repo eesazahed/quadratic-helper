@@ -1,12 +1,12 @@
 import { NextPage } from "next";
 import React from "react";
 
-interface FractionProps {
+interface Props {
   numerator: React.ReactNode;
   denominator: React.ReactNode;
 }
 
-const Fraction: NextPage<FractionProps> = ({ numerator, denominator }) => {
+const Fraction: NextPage<Props> = ({ numerator, denominator }) => {
   return (
     <div className="inline-block relative align-middle text-center">
       <span className="block p-1">{numerator}</span>

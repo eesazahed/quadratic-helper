@@ -23,7 +23,7 @@ const Input: NextPage<Props> = ({
       <input
         type={type}
         placeholder={placeholder}
-        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:border-none dark:caret-white dark:text-white"
+        className="text-right shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:border-none dark:caret-white dark:text-white"
         value={parentData}
         onChange={(e) => updateParent(e.target.value)}
       />
