@@ -118,7 +118,7 @@ const Home: NextPage = () => {
             ) : (
               <div>
                 <div className="mb-8">
-                  <p className="text-sm text-center italic">
+                  <p className="text-md text-center italic">
                     You can click on the standard, factored, or vertex form
                     equation to copy it. You can paste it into{" "}
                     <a
@@ -128,14 +128,23 @@ const Home: NextPage = () => {
                     >
                       Desmos
                     </a>{" "}
-                    to see a visualized graph.
+                    to see a visualized graph, or open it within the site.
                   </p>
+                  <br />
+                  <details>
+                    <summary className="cursor-pointer">Open Desmos</summary>
+                    <iframe
+                      className="w-full h-[80vh] my-8"
+                      src="https://www.desmos.com/calculator/"
+                    ></iframe>
+                  </details>
+
                   <h1 className="mt-16 mb-4 text-4xl font-bold">
                     Standard form
                   </h1>
                   <h2
                     className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
-                    onClick={(e: any) => copy(e.target.innerText)}
+                    onClick={(e: any) => copy(e.currentTarget.innerText)}
                   >
                     f(x) = {a !== 1 && <A a={a} />}
                     x&#178; + {b !== 1 && <B b={b} />}x + <C c={c} />
@@ -236,7 +245,7 @@ const Home: NextPage = () => {
                                   <a
                                     className="text-purple-500 cursor-pointer"
                                     onClick={(e: any) =>
-                                      copy(e.target.innerText)
+                                      copy(e.currentTarget.innerText)
                                     }
                                   >
                                     f(x) = {a !== 1 && <A a={a} />}
@@ -290,6 +299,24 @@ const Home: NextPage = () => {
                                     ({-b / (2 * a)}, 0).
                                   </span>
                                 </p>
+
+                                {-b / (2 * a) !== undefined && (
+                                  <div>
+                                    <h1 className="mt-16 mb-4 text-4xl font-bold">
+                                      Factored form:
+                                    </h1>
+                                    <h2
+                                      className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
+                                      onClick={(e: any) =>
+                                        copy(e.currentTarget.innerText)
+                                      }
+                                    >
+                                      f(x) = {a !== 1 && <A a={a} />}
+                                      (x {-b / (2 * a) < 0 ? "+" : "-"}{" "}
+                                      {Math.abs(-b / (2 * a))})&#178;
+                                    </h2>
+                                  </div>
+                                )}
                               </div>
                             )}
                             {discriminant > 0 && (
@@ -392,7 +419,7 @@ const Home: NextPage = () => {
                                     <h2
                                       className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
                                       onClick={(e: any) =>
-                                        copy(e.target.innerText)
+                                        copy(e.currentTarget.innerText)
                                       }
                                     >
                                       f(x) = {a !== 1 && <A a={a} />}
@@ -473,7 +500,9 @@ const Home: NextPage = () => {
                                               <h2
                                                 className="my-4 py-2 px-4 text-2xl cursor-pointer duration-200 hover:bg-gray-100 dark:hover:bg-gray-700 w-fit rounded-xl"
                                                 onClick={(e: any) =>
-                                                  copy(e.target.innerText)
+                                                  copy(
+                                                    e.currentTarget.innerText
+                                                  )
                                                 }
                                               >
                                                 f(x) = {a !== 1 && <A a={a} />}
@@ -506,7 +535,19 @@ const Home: NextPage = () => {
             )}
           </div>
         </div>
-        <p className="my-16 text-center">
+        <p className="mt-16 text-center">
+          View the code on{" "}
+          <a
+            className="text-green-400"
+            rel="noreferrer"
+            target="_blank"
+            href="https://github.com/eesazahed/quadratic-helper"
+          >
+            GitHub
+          </a>
+        </p>
+        <br />
+        <p className="mb-16 text-center">
           Made by{" "}
           <a
             className="text-green-400"
